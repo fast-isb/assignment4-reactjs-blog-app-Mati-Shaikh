@@ -1,0 +1,67 @@
+/* navbar.css */
+
+body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden; /* This prevents horizontal scrolling caused by the body margin */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+  
+  .navbar-container {
+    max-width: 100%; 
+    margin: 0 auto; 
+    width: 100rem;
+    height: 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(24, 24, 14, 0.816);
+    color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    margin-left: 30px;
+  }
+  .menu ul{
+     list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-between;
+  }
+  .menu ul li {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    border-radius: 20px;
+    width: calc(0% - 100px); 
+  }
+  
+  .menu a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 15px;
+    font-weight: bold;
+  }
+  
+  .sign-buttons button {
+    margin-right: 20px;
+    padding: 8px 16px;
+    background-color: #61dafb;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+  
+  .sign-buttons button:hover {
+    background-color: #4fa3d1;
+  }
+  

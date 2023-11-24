@@ -1,0 +1,71 @@
+/* BlogsList.css */
+
+/* Color Theme */
+:root {
+    --primary-color: #3498db; /* Blue color */
+    --background-color: #b3b3b3; /* Light gray background color */
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  li {
+    width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: var(--background-color);
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease; /* Add transition for a smooth effect */
+  
+    &:hover {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Add shadow on hover */
+    }
+  
+    h2 {
+      color: var(--primary-color); /* Apply primary color to the title */
+      margin-bottom: 10px;
+    }
+  
+    p {
+      color: #555; /* Dark gray text color for description, author, and date */
+      margin-bottom: 8px;
+    }
+  
+    p.author {
+      font-weight: bold;
+    }
+  
+    p.createdAt {
+      font-style: italic;
+      color: aqua;
+    }
+  }
+  
+  .prev_button{
+    margin-right: 20px;
+    padding: 8px 16px;
+    background-color: #61dafb;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+  .next_button{
+    margin-left: 20px;
+    padding: 8px 16px;
+    background-color: #61dafb;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+  .pagination{
+    margin-left: 500px;
+  }
