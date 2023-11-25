@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import './BlogsList.css'; // Import the CSS file
-// ... (other imports)
+import './BlogsList.css'; 
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [blogsPerPage] = useState(10);
+
+  useEffect(() => {
+    const storedPage = localStorage.getItem('currentPage');
+    if (storedPage) {
+      setCurrentPage(parseInt(storedPage, 10));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +37,10 @@ const BlogList = () => {
   const prevPage = () => {
     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
   };
+
+  useEffect(() => {
+    localStorage.setItem('currentPage', currentPage.toString());
+  }, [currentPage]);
 
   return (
     <>

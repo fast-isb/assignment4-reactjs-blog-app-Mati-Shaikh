@@ -1,3 +1,5 @@
+// Login.js
+
 import React, { useState } from 'react';
 import './Login.css';
 
@@ -22,22 +24,26 @@ const Login = ({ onLoginSuccess }) => {
         },
         body: JSON.stringify(formData),
       });
-
+  
+      console.log('Response:', response);
       const data = await response.json();
-
+  
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        setErrorMessage('');
+        console.log(data.token)
+        setErrorMessage(data.message || 'Login Success');
         onLoginSuccess(); // Trigger callback for successful login
+        // ...
       } else {
-        localStorage.removeItem('token'); // Clear token on failed login
-        setErrorMessage(data || 'Login failed. Please try again.');
+        console.error('Login failed:', data.message);
+        setErrorMessage(data.message || 'Login failed. Please try again.');
       }
     } catch (error) {
-      localStorage.removeItem('token'); // Clear token on error
+      console.error('Error during login:', error);
       setErrorMessage('Error during login. Please try again later.');
     }
   };
+  
 
   return (
     <div className="login-container">
