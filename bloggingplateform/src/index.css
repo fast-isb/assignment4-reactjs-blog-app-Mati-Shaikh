@@ -95,4 +95,26 @@
   }
   
   /* Add more styling as needed */
-    
+  .create-blog-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 20px;
+    width: 10%;
+  }
+/* UserDashboard.css */
+.custom-small-button {
+  font-size: 14px;
+  padding: 8px 16px;
+}
+
+.edit-profile-button {
+  background-color: #007bff; /* or your desired color */
+  color: #fff;
+  border: none;
+  border-radius: 50%; /* to create a circle */
+  padding: 10px; /* adjust the padding as needed */
+  cursor: pointer;
+  font-size: 14px; /* adjust the font size as needed */
+}
+  

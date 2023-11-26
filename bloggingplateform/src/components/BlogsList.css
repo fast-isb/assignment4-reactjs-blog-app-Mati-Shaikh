@@ -47,6 +47,7 @@
   }
   
   .prev_button{
+    width: 15%;
     margin-right: 20px;
     padding: 8px 16px;
     background-color: #61dafb;
@@ -56,6 +57,7 @@
     border-radius: 20px;
   }
   .next_button{
+    width: 15%;
     margin-left: 20px;
     padding: 8px 16px;
     background-color: #61dafb;
@@ -66,4 +68,15 @@
   }
   .pagination{
     margin-left: 500px;
+  }
+  .see_more_button{
+    width: 50%;
+    height: 40px;
+  }
+  .follow_button{
+    width: 20%;
+    height: 40px;
+    display: grid;
+    align-items: center;
+    margin-left: 8  00px;
   }

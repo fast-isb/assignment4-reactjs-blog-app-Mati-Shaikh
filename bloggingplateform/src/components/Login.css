@@ -1,0 +1,29 @@
+/* Login.css */
+
+.login-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-top: 50px;
+  }
+  
+  .error-message {
+    color: #ff0000;
+    margin-top: 10px;
+  }
+  
+  .signup-link {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .signup-link:hover {
+    text-decoration: underline;
+  }
+  

@@ -1,8 +1,7 @@
-// Blog_Modal.js
-
 import React, { useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 
-const BlogModal = ({ onClose }) => {
+const BlogModal = ({ show, onClose }) => {
   const [blogData, setBlogData] = useState({
     title: '',
     desc: '',
@@ -10,44 +9,34 @@ const BlogModal = ({ onClose }) => {
 
   const handleChange = (e) => {
     setBlogData({ ...blogData, [e.target.name]: e.target.value });
-    
-};
+  };
 
-const handlePostBlog = async () => {
+  const handlePostBlog = async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
         console.error('Unauthorized access. No token found.');
         return;
       }
-  
+
       console.log('Preparing to post blog:', blogData);
 
-      const response = await fetch('http://localhost:5001/api/posts/', {
+      const response = await fetch('http://localhost:5001/api/posts/createPost', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: token,
+          token: token,
         },
-        body: JSON.stringify({title:blogData.title,desc:blogData.desc}),
+        body: JSON.stringify(blogData),
       });
-      if(response.ok)
-      {
-        console.log("Request Fetched")
-      }
-      else
-      {
-        console.log("No Request Fetched")
-      }
+
       console.log('Response from server:', response);
-  
+
       if (response.ok) {
         console.log('Blog posted successfully');
         onClose();
       } else {
         console.error('Failed to post blog:', response.status, response.statusText);
-  
-        // Handle specific error cases
         if (response.status === 401) {
           // Unauthorized - redirect to login page
           console.error('Unauthorized access. Redirecting to login page.');
@@ -58,33 +47,43 @@ const handlePostBlog = async () => {
       console.error('Failed Posting', error);
     }
   };
-  
 
   return (
-    <div className="blog-modal-container">
-      <h2>Create Blog</h2>
-
-      <label htmlFor="title">Title:</label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        value={blogData.title}
-        onChange={handleChange}
-      />
-
-      <label htmlFor="desc">Description:</label>
-      <textarea
-        id="desc"
-        name="desc"
-        value={blogData.desc}
-        onChange={handleChange}
-      />
-
-      {/* Add a button to trigger the post blog functionality */}
-      <button onClick={handlePostBlog}>Post Blog</button>
-      <button onClick={onClose}>Cancel</button>
-    </div>
+    <Modal show={show} onHide={onClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Create Blog</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group controlId="title">
+            <Form.Label>Title:</Form.Label>
+            <Form.Control
+              type="text"
+              name="title"
+              value={blogData.title}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="desc">
+            <Form.Label>Description:</Form.Label>
+            <Form.Control
+              as="textarea"
+              name="desc"
+              value={blogData.desc}
+              onChange={handleChange}
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={handlePostBlog}>
+          Post Blog
+        </Button>
+        <Button variant="secondary" onClick={onClose}>
+          Cancel
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

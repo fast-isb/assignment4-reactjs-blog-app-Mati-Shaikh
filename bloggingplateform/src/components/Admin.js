@@ -8,7 +8,10 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/auth/admin/users');
+        const response = await fetch('http://localhost:5001/api/auth/getAllUsers');
+        if (!response.ok) {
+          throw new Error('Failed to fetch users');
+        }
         const data = await response.json();
         setUsers(data);
       } catch (error) {
@@ -18,7 +21,10 @@ const AdminDashboard = () => {
 
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/posts/admin/posts');
+        const response = await fetch('http://localhost:5001/api/posts/getAllBlogs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
         const data = await response.json();
         setPosts(data);
       } catch (error) {
@@ -52,7 +58,6 @@ const AdminDashboard = () => {
                 <li key={user._id}>
                   <p>{user.username}</p>
                   <p>Email: {user.email}</p>
-                  {/* Add more user details as needed */}
                 </li>
               ))}
             </ul>
@@ -67,7 +72,6 @@ const AdminDashboard = () => {
                 <li key={post._id}>
                   <h3>{post.title}</h3>
                   <p>{post.body}</p>
-                  {/* Add more post details as needed */}
                 </li>
               ))}
             </ul>

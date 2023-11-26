@@ -1,13 +1,13 @@
-
+// Navbar.js
 import React from 'react';
 import './navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ onProfileClick }) => {
   return (
     <div className="navbar-container">
       <div className="logo">
         <h3>
-          <span>B</span>logging Plateform
+          <span>B</span>logging Platform
         </h3>
       </div>
       <div className="menu">
@@ -19,9 +19,8 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-      <div className="sign-buttons">
-        <button>Login</button>
-        <button>SignUp</button>
+      <div className="profile-icon" onClick={onProfileClick}>
+        <button className="edit-profile-button">Edit Profile</button>
       </div>
     </div>
   );
