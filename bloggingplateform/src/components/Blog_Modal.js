@@ -10,6 +10,7 @@ const BlogModal = ({ onClose }) => {
 
   const handleChange = (e) => {
     setBlogData({ ...blogData, [e.target.name]: e.target.value });
+    
 };
 
 const handlePostBlog = async () => {
@@ -21,14 +22,14 @@ const handlePostBlog = async () => {
       }
   
       console.log('Preparing to post blog:', blogData);
-  
+
       const response = await fetch('http://localhost:5001/api/posts/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: token,
         },
-        body: JSON.stringify(blogData),
+        body: JSON.stringify({title:blogData.title,desc:blogData.desc}),
       });
       if(response.ok)
       {
@@ -54,7 +55,7 @@ const handlePostBlog = async () => {
         }
       }
     } catch (error) {
-      console.error('Failed to post blog:', error);
+      console.error('Failed Posting', error);
     }
   };
   
