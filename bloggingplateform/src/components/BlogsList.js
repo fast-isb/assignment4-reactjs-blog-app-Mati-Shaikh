@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap'; // Added Form from react-bootstrap
+import { Button, Modal, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './BlogsList.css';
 
@@ -11,7 +11,28 @@ const BlogList = () => {
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [followedBlogs, setFollowedBlogs] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // Added state for search term
+  const [searchTerm, setSearchTerm] = useState('');
+  const [userRatings, setUserRatings] = useState({}); // Track user ratings for each blog
+
+  // Fetch blog data function
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/posts/getAllPost?page=${currentPage}&limit=${blogsPerPage}`);
+      const data = await response.json();
+
+      if (Array.isArray(data)) {
+        setBlogs(data);
+        setTotalPages(1);
+      } else if (data.posts) {
+        setBlogs(data.posts);
+        setTotalPages(data.totalPages);
+      } else {
+        console.error('Invalid API response format:', data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
     const storedPage = localStorage.getItem('currentPage');
@@ -21,48 +42,22 @@ const BlogList = () => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:5001/api/posts/getAllPost?page=${currentPage}&limit=${blogsPerPage}`);
-        const data = await response.json();
-  
-        if (Array.isArray(data)) {
-          // If the response is an array, set it directly as blogs
-          setBlogs(data);
-          setTotalPages(1); // Assuming no pagination for this case
-        } else if (data.posts) {
-          // If the response is an object with a posts property, extract the posts
-          setBlogs(data.posts);
-          setTotalPages(data.totalPages);
-        } else {
-          console.error('Invalid API response format:', data);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-  
     fetchData();
   }, [currentPage, blogsPerPage]);
 
-
-  // New function to handle search
   const handleSearch = async () => {
     try {
-      // Assuming you have the user's authentication token stored in a state variable named 'authToken'
       const response = await fetch(`http://localhost:5001/api/posts/search?query=${searchTerm}`, {
         headers: {
-          token:localStorage.getItem('token') // Include the authentication token in the headers
+          token: localStorage.getItem('token'),
         },
       });
       const data = await response.json();
-  
+
       if (Array.isArray(data)) {
-        // If the response is an array, set it directly as blogs
         setBlogs(data);
-        setTotalPages(1); // Assuming no pagination for this case
+        setTotalPages(1);
       } else if (data.posts) {
-        // If the response is an object with a posts property, extract the posts
         setBlogs(data.posts);
         setTotalPages(data.totalPages);
       } else {
@@ -72,7 +67,36 @@ const BlogList = () => {
       console.error('Error searching data:', error);
     }
   };
-  
+
+  const handleUserRating = async (postId) => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/posts/ratePost/${postId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          token: localStorage.getItem('token'),
+        },
+        body: JSON.stringify({
+          Rate: userRatings[postId] || 0,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      console.log('Blog rated successfully:', data);
+      // Fetch updated data after rating
+      fetchData();
+
+      // Alert the user
+      alert('Blog rated successfully!');
+    } catch (error) {
+      console.error('Error rating blog:', error);
+    }
+  };
 
   const nextPage = () => {
     setCurrentPage((prevPage) => (prevPage < totalPages ? prevPage + 1 : prevPage));
@@ -83,7 +107,6 @@ const BlogList = () => {
   };
 
   const handleFollow = (blogId) => {
-    // Implement the logic to update the follow state for the blog with the given ID
     console.log(`Follow button clicked for blog with ID: ${blogId}`);
     setFollowedBlogs((prevFollowedBlogs) => [...prevFollowedBlogs, blogId]);
   };
@@ -97,6 +120,7 @@ const BlogList = () => {
     setShowModal(true);
   };
 
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -107,7 +131,6 @@ const BlogList = () => {
 
   return (
     <>
-      {/* Added search bar */}
       <Form className="search-bar">
         <Form.Control
           type="text"
@@ -122,13 +145,13 @@ const BlogList = () => {
 
       <ul>
         {blogs.map((blog) => (
-          <li key={blog._id} onClick={() => handleBlogClick(blog)}>
+          <li key={blog._id} >
             <h2>
               {blog.title}
               <Button
                 variant={isFollowed(blog._id) ? 'light' : 'primary'} className='follow_button'
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent li click event from firing
+                  e.stopPropagation();
                   handleFollow(blog._id);
                 }}
                 style={{ marginLeft: '10px' }}
@@ -143,9 +166,28 @@ const BlogList = () => {
             <p className="createdAt">
               <strong>Created at:</strong> {blog.createdAt}
             </p>
-            <Button className='see_more_button' onClick={() => handleBlogClick(blog)}>
-              See More
-            </Button>
+            <div>
+              {/* Rating input */}
+              <Form.Group controlId={`rating_${blog._id}`}>
+                <Form.Label>Rate this blog (1-5):</Form.Label>
+                <Form.Control
+                  type="number"
+                  min="1"
+                  max="5"
+                  value={userRatings[blog._id] || 0} // Use the specific rating for the blog
+                  onChange={(e) => setUserRatings({ ...userRatings, [blog._id]: e.target.value })}
+                />
+              </Form.Group>
+              {/* Rating button */}
+              <Button variant="success" onClick={() => handleUserRating(blog._id)}>
+                Rate
+              </Button>
+
+              {/* See More button */}
+              <Button variant="info" onClick={() => handleBlogClick(blog)}>
+                See More
+              </Button>
+            </div>
           </li>
         ))}
       </ul>

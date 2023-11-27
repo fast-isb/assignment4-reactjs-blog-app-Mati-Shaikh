@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './navbar';
-import { Button } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import ProfileModal from './ProfileModal';
 import CreateBlogModal from './Blog_Modal'; // Import the CreateBlogModal component
 import BlogList from './BlogsList';
@@ -33,11 +33,11 @@ const UserDashboard = ({ onLogout }) => {
       const userId = '6562347f0e1547ab79d2034e';
       console.log(userId);
 
-      const response = await fetch(`http://localhost:5001/api/users/updateUser/${userId}`,{
+      const response = await fetch(`http://localhost:5001/api/users/updateUser/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          token:localStorage.getItem('token')
+          token: localStorage.getItem('token')
         },
         body: JSON.stringify({
           userId,
@@ -50,10 +50,8 @@ const UserDashboard = ({ onLogout }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      
-
       console.log('Profile updated successfully:', data);
-     
+
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -68,7 +66,14 @@ const UserDashboard = ({ onLogout }) => {
   };
 
   if (!isAuthenticated) {
-    return <div>Loading...</div>; 
+    // Styling using Bootstrap Spinner component
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      </div>
+    );
   }
 
   return (
@@ -80,7 +85,7 @@ const UserDashboard = ({ onLogout }) => {
         </Button>
         <BlogList />
       </main>
-      <ProfileModal show={isProfileModalOpen} onClose={closeProfileModal} onUpdateProfile={handleUpdateProfile} />
+      <ProfileModal show={isProfileModalOpen} onClose={closeProfileModal} onUpdateProfile={handleUpdateProfile} onLogout={onLogout} />
       <CreateBlogModal show={isCreateBlogModalOpen} onClose={closeCreateBlogModal} />
     </div>
   );

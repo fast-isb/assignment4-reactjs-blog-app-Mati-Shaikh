@@ -23,9 +23,10 @@ const ProfileModal = ({ show, onClose, onUpdateProfile, onLogout }) => {
 
   // Function to handle logout
   const handleLogout = () => {
-    // Call the provided onLogout function
-    onLogout();
+    localStorage.removeItem('token');
 
+    // Call the provided onLogout function
+    onLogout && onLogout();
     // Close the modal
     onClose();
   };
