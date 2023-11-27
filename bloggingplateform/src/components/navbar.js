@@ -14,13 +14,13 @@ const Navbar = ({ onProfileClick }) => {
         <ul>
           <li>
             <a href="#">Home</a>
-            <a href="#">About</a>
+            <a href="#">MyBlogs</a>
             <a href="#">Contact</a>
           </li>
         </ul>
       </div>
       <div className="profile-icon" onClick={onProfileClick}>
-        <button className="edit-profile-button">Edit Profile</button>
+        <button className="edit-profile-button">Profile</button>
       </div>
     </div>
   );

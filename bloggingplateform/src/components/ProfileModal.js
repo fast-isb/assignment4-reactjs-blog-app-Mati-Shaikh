@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-const ProfileModal = ({ show, onClose, onUpdateProfile }) => {
+const ProfileModal = ({ show, onClose, onUpdateProfile, onLogout }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -16,6 +16,15 @@ const ProfileModal = ({ show, onClose, onUpdateProfile }) => {
 
     // Call the provided onUpdateProfile function
     onUpdateProfile(updatedFields);
+
+    // Close the modal
+    onClose();
+  };
+
+  // Function to handle logout
+  const handleLogout = () => {
+    // Call the provided onLogout function
+    onLogout();
 
     // Close the modal
     onClose();
@@ -66,6 +75,9 @@ const ProfileModal = ({ show, onClose, onUpdateProfile }) => {
         </Button>
         <Button variant="primary" onClick={handleUpdateProfile}>
           Save Changes
+        </Button>
+        <Button variant="danger" onClick={handleLogout}>
+          Log Out
         </Button>
       </Modal.Footer>
     </Modal>

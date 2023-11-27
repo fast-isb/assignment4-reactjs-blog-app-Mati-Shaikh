@@ -29,25 +29,28 @@ const UserDashboard = ({ onLogout }) => {
 
   const handleUpdateProfile = async (updatedFields) => {
     try {
-      const userId = '656396e50674e2d54ab990c8';
+      console.log(updatedFields)
+      const userId = '6562347f0e1547ab79d2034e';
       console.log(userId);
 
-      const response = await fetch(`http://localhost:5001/api/users/updateUser/${userId}`, {
-        method: 'POST',
+      const response = await fetch(`http://localhost:5001/api/users/updateUser/${userId}`,{
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          token:localStorage.getItem('token')
         },
         body: JSON.stringify({
           userId,
           updatedFields,
         }),
       });
-
+      const data = await response.json();
+      console.log(data)
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
+      
 
       console.log('Profile updated successfully:', data);
      
