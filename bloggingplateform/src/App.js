@@ -6,6 +6,8 @@ import Login from './components/Login';
 import UserDashboard from './components/UserDashboard';
 import SignUp from './components/SignUp'; // Import the SignUp component
 import AdminDashboard from './components/Admin';
+import MyBlogs from './components/MyBlogs';
+
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -34,6 +36,9 @@ const App = () => {
   }
 
   return (
+    // <>
+    //   <MyBlogs/>
+    // </>
    
     <Router>
       <Routes>
@@ -49,6 +54,9 @@ const App = () => {
         />
         <Route path="/login" element={<Login onLoginSuccess={() => setLoggedIn(true)} />} />
         <Route path="/signup" element={<SignUp onSignUpSuccess={() => setLoggedIn(true)} />} />
+        <Route path="/myBlogs" element={<MyBlogs/>} />
+        
+
       </Routes>
     </Router>
    

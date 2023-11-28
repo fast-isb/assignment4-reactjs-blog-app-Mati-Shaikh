@@ -1,6 +1,6 @@
 
 :root {
-    --primary-color: #3498db; /* Blue color */
+    --primary-color: lightblue;; /* Blue color */
     --background-color: #d7cfcf; /* Light gray background color */
   }
   
@@ -44,39 +44,6 @@
       font-style: italic;
       color: aqua;
     }
-  }
+  } 
+
   
-  .prev_button{
-    width: 15%;
-    margin-right: 20px;
-    padding: 8px 16px;
-    background-color: #61dafb;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 20px;
-  }
-  .next_button{
-    width: 15%;
-    margin-left: 20px;
-    padding: 8px 16px;
-    background-color: #61dafb;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 20px;
-  }
-  .pagination{
-    margin-left: 500px;
-  }
-  .see_more_button{
-    width: 50%;
-    height: 40px;
-  }
-  .follow_button{
-    width: 20%;
-    height: 40px;
-    display: grid;
-    align-items: center;
-    margin-left: 8  00px;
-  }

@@ -10,6 +10,7 @@ const Login = ({ onLoginSuccess }) => {
     username: '',
     password: '',
   });
+  //const [variable , setvariable] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
   const [showAdminModal, setShowAdminModal] = useState(false);
@@ -32,6 +33,8 @@ const Login = ({ onLoginSuccess }) => {
 
       console.log('Response:', response);
       const data = await response.json();
+      console.log(data._id);
+      
 
       if (response.ok) {
         localStorage.setItem('token', data.token);

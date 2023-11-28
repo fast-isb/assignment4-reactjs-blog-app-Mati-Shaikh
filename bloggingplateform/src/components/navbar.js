@@ -1,6 +1,8 @@
 // Navbar.js
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from React Router
 import './navbar.css';
+import MyBlogs from './MyBlogs';
 
 const Navbar = ({ onProfileClick }) => {
   return (
@@ -13,9 +15,9 @@ const Navbar = ({ onProfileClick }) => {
       <div className="menu">
         <ul>
           <li>
-            <a href="#">Home</a>
-            <a href="#">MyBlogs</a>
-            <a href="#">Contact</a>
+            <Link to="/">Home</Link>
+            <Link to="/myblogs">MyBlogs</Link>
+            <Link to="/contact">Contact</Link>
           </li>
         </ul>
       </div>

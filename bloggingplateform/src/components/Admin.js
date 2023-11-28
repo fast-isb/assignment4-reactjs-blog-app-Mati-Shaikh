@@ -39,6 +39,26 @@ const AdminDashboard = () => {
     }
   }, [activeSection]);
 
+  const disableUser = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/auth/disableUser/${userId}`, {
+        method: 'PUT', // Assuming you use a PUT request to disable a user
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to disable user');
+      }
+
+      // Update the state to reflect the disabled user
+      setUsers(users.map(user => (user._id === userId ? { ...user, disabled: true } : user)));
+    } catch (error) {
+      console.error('Error disabling user:', error);
+    }
+  };
+
   return (
     <div className="admin-dashboard-container">
       <nav className="admin-navbar">
@@ -58,6 +78,11 @@ const AdminDashboard = () => {
                 <li key={user._id}>
                   <p>{user.username}</p>
                   <p>Email: {user.email}</p>
+                  {!user.disabled && (
+                    <button onClick={() => disableUser(user._id)} className="disable-button">
+                      Disable
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
