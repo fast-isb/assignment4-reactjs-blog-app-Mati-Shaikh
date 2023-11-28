@@ -196,3 +196,15 @@
   margin-top: 20px;
   display: flex;
 }
+.comment-group{
+  margin-bottom: 15px;
+}
+.CommentButton{
+ margin-bottom: 10px;
+}
+.rating-group{
+  margin-bottom: 10px;
+}
+.seemore{
+  margin-left: 20px;
+}
