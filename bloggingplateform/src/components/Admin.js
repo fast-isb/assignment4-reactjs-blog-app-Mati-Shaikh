@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Button, Spinner } from 'react-bootstrap';
+import MyBlogs from './BlogsList'; // Import the BlogList component
+//import './AdminDashboard.css'; // Import the stylesheet for AdminDashboard
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('section1');
@@ -42,30 +45,37 @@ const AdminDashboard = () => {
   const disableUser = async (userId) => {
     try {
       const response = await fetch(`http://localhost:5001/api/auth/disableUser/${userId}`, {
-        method: 'PUT', // Assuming you use a PUT request to disable a user
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to disable user');
       }
-
+  
       // Update the state to reflect the disabled user
-      setUsers(users.map(user => (user._id === userId ? { ...user, disabled: true } : user)));
+      setUsers((prevUsers) =>
+        prevUsers.map((user) => (user._id === userId ? { ...user, disabled: true } : user))
+      );
     } catch (error) {
       console.error('Error disabling user:', error);
     }
   };
+  
 
   return (
     <div className="admin-dashboard-container">
       <nav className="admin-navbar">
         <h3>Admin Dashboard</h3>
         <div className="nav-links">
-          <a href="#section1" onClick={() => setActiveSection('section1')}>View All Users</a>
-          <a href="#section2" onClick={() => setActiveSection('section2')}>View All Posts</a>
+          <a href="#section1" onClick={() => setActiveSection('section1')}>
+            View All Users
+          </a>
+          <a href="#section2" onClick={() => setActiveSection('section2')}>
+            View All Posts
+          </a>
         </div>
       </nav>
 
@@ -74,7 +84,7 @@ const AdminDashboard = () => {
           <div id="section1" className="dashboard-section">
             <h2>View All Users</h2>
             <ul>
-              {users.map(user => (
+              {users.map((user) => (
                 <li key={user._id}>
                   <p>{user.username}</p>
                   <p>Email: {user.email}</p>
@@ -92,14 +102,7 @@ const AdminDashboard = () => {
         {activeSection === 'section2' && (
           <div id="section2" className="dashboard-section">
             <h2>View All Posts</h2>
-            <ul>
-              {posts.map(post => (
-                <li key={post._id}>
-                  <h3>{post.title}</h3>
-                  <p>{post.body}</p>
-                </li>
-              ))}
-            </ul>
+            <MyBlogs /> {/* Render BlogList component for Admin Dashboard */}
           </div>
         )}
       </div>

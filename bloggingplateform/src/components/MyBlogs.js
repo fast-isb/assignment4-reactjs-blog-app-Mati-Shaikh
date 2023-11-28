@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form, Navbar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MyBlogs = () => {
@@ -108,7 +108,10 @@ const MyBlogs = () => {
 
   return (
     <>
-      <h1>My Blogs</h1>
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand href="#home">My Blogs</Navbar.Brand>
+        {/* Add any additional Navbar elements as needed */}
+      </Navbar>
 
       <ul className="blog-list">
         {myBlogs.map((blog) => (

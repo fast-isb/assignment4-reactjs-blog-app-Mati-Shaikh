@@ -208,3 +208,20 @@
 .seemore{
   margin-left: 20px;
 }
+/* AdminDashboard.css */
+
+.dashboard-section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+}
+
+.disable-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}

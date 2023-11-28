@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/navbar';
-import Footer from './components/footer';
 import Login from './components/Login';
 import UserDashboard from './components/UserDashboard';
-import SignUp from './components/SignUp'; // Import the SignUp component
-import AdminDashboard from './components/Admin';
+import SignUp from './components/SignUp';
 import MyBlogs from './components/MyBlogs';
-
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -18,7 +15,7 @@ const App = () => {
       try {
         const token = localStorage.getItem('token');
         if (token) {
-          console.log('Successful');
+          console.log('Authentication successful');
           setLoggedIn(true);
         }
         setAuthCheckComplete(true);
@@ -31,15 +28,15 @@ const App = () => {
     checkAuthentication();
   }, []);
 
+  const handleLoginSuccess = () => {
+    setLoggedIn(true);
+  };
+
   if (!authCheckComplete) {
-    return null;
+    return null; // or show a loading spinner
   }
 
   return (
-    // <>
-    //   <MyBlogs/>
-    // </>
-   
     <Router>
       <Routes>
         <Route
@@ -52,14 +49,11 @@ const App = () => {
             )
           }
         />
-        <Route path="/login" element={<Login onLoginSuccess={() => setLoggedIn(true)} />} />
+        <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
         <Route path="/signup" element={<SignUp onSignUpSuccess={() => setLoggedIn(true)} />} />
-        <Route path="/myBlogs" element={<MyBlogs/>} />
-        
-
+        <Route path="/myBlogs" element={<MyBlogs />} />
       </Routes>
     </Router>
-   
   );
 };
 
